@@ -64,15 +64,15 @@ const MeritPage = () => {
   return (
     <div>
       <PageHeader title="Merit" breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Merit" }]}>
-        <Button onClick={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}><Plus className="mr-1.5 h-4 w-4" /> Add Merit</Button>
+        <Button className="bg-warning hover:bg-warning/90 text-warning-foreground" onClick={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}><Plus className="mr-1.5 h-4 w-4" /> Add Merit</Button>
       </PageHeader>
 
       {/* ========================= */}
       {/* Total Hours Summary */}
       {/* ========================= */}
-      <Card className="mb-6 stat-card">
+      <Card className="mb-6 stat-card gradient-warning border-l-warning">
         <CardContent className="flex items-center gap-4 p-5">
-          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-muted text-warning">
+          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-warning-tint text-warning">
             <Clock className="h-5 w-5" />
           </div>
           <div>
@@ -108,7 +108,7 @@ const MeritPage = () => {
         <DialogContent><DialogHeader><DialogTitle>Delete Merit</DialogTitle><DialogDescription>Are you sure? This cannot be undone.</DialogDescription></DialogHeader><DialogFooter><Button variant="outline" onClick={() => setDeleteId(null)}>Cancel</Button><Button variant="destructive" onClick={handleDelete}>Delete</Button></DialogFooter></DialogContent>
       </Dialog>
 
-      <Card><CardHeader><CardTitle>Merit Records</CardTitle></CardHeader><CardContent>
+      <Card className="border-t-warning"><CardHeader><CardTitle className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-warning inline-block"></span> Merit Records</CardTitle></CardHeader><CardContent>
         <DataTable idPrefix="merit" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["activity_name", "category"]} filters={filters} filterLabel="Category" actions={(row: any) => (
           <div className="flex justify-end gap-1">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(row)}><Pencil className="h-4 w-4" /></Button>
