@@ -227,7 +227,7 @@ function DataTable<T extends Record<string, unknown>>({
               </TableRow>
             ) : (
               pageData.map((row, idx) => (
-                <TableRow key={idx}>
+                <TableRow key={idx} className="zebra-row">
                   {columns.map((col) => (
                     <TableCell key={String(col.key)}>
                       {col.render ? col.render(row[col.key], row) : String(row[col.key] ?? "")}

@@ -30,6 +30,8 @@ interface NavItem {
   title: string;
   url: string;
   icon: React.ElementType;
+  iconColor?: string;
+  activeAccent?: string;
 }
 
 // =========================
@@ -40,10 +42,10 @@ const mainItems: NavItem[] = [
 ];
 
 const moduleItems: NavItem[] = [
-  { title: "Events", url: "/modules/event", icon: Calendar },
-  { title: "Clubs", url: "/modules/club", icon: Users },
-  { title: "Merit", url: "/modules/merit", icon: Star },
-  { title: "Achievements", url: "/modules/achievement", icon: Award },
+  { title: "Events", url: "/modules/event", icon: Calendar, iconColor: "text-info", activeAccent: "border-l-info" },
+  { title: "Clubs", url: "/modules/club", icon: Users, iconColor: "text-success", activeAccent: "border-l-success" },
+  { title: "Merit", url: "/modules/merit", icon: Star, iconColor: "text-warning", activeAccent: "border-l-warning" },
+  { title: "Achievements", url: "/modules/achievement", icon: Award, iconColor: "text-purple", activeAccent: "border-l-purple" },
 ];
 
 const adminItems: NavItem[] = [
@@ -67,13 +69,13 @@ const AppSidebar = ({ collapsed }: AppSidebarProps) => {
       key={item.url}
       to={item.url}
       className={cn(
-        "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors",
+        "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-all duration-150",
         isActive(item.url)
-          ? "bg-sidebar-accent text-sidebar-primary font-medium"
+          ? `bg-sidebar-accent text-sidebar-primary font-medium ${item.activeAccent || ""}`
           : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
       )}
     >
-      <item.icon className="h-4 w-4 shrink-0" />
+      <item.icon className={cn("h-4 w-4 shrink-0", item.iconColor && !isActive(item.url) ? item.iconColor : "")} />
       {!collapsed && <span className="truncate">{item.title}</span>}
     </NavLink>
   );

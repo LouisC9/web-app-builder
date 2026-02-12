@@ -61,7 +61,7 @@ const ClubPage = () => {
   return (
     <div>
       <PageHeader title="Clubs" breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Clubs" }]}>
-        <Button onClick={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}><Plus className="mr-1.5 h-4 w-4" /> Add Club</Button>
+        <Button className="bg-success hover:bg-success/90 text-success-foreground" onClick={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}><Plus className="mr-1.5 h-4 w-4" /> Add Club</Button>
       </PageHeader>
 
       <Dialog open={showForm} onOpenChange={setShowForm}>
@@ -90,7 +90,7 @@ const ClubPage = () => {
         <DialogContent><DialogHeader><DialogTitle>Delete Club</DialogTitle><DialogDescription>Are you sure? This cannot be undone.</DialogDescription></DialogHeader><DialogFooter><Button variant="outline" onClick={() => setDeleteId(null)}>Cancel</Button><Button variant="destructive" onClick={handleDelete}>Delete</Button></DialogFooter></DialogContent>
       </Dialog>
 
-      <Card><CardHeader><CardTitle>Club Records</CardTitle></CardHeader><CardContent>
+      <Card className="border-t-success"><CardHeader><CardTitle className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-success inline-block"></span> Club Records</CardTitle></CardHeader><CardContent>
         <DataTable idPrefix="club" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["club_name", "role"]} filters={filters} filterLabel="Role" actions={(row: any) => (
           <div className="flex justify-end gap-1">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(row)}><Pencil className="h-4 w-4" /></Button>

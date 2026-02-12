@@ -116,7 +116,7 @@ const EventPage = () => {
         title="Events"
         breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Events" }]}
       >
-        <Button onClick={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}>
+        <Button className="bg-info hover:bg-info/90 text-info-foreground" onClick={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}>
           <Plus className="mr-1.5 h-4 w-4" /> Add Event
         </Button>
       </PageHeader>
@@ -193,9 +193,9 @@ const EventPage = () => {
       {/* ========================= */}
       {/* Records Table */}
       {/* ========================= */}
-      <Card>
+      <Card className="border-t-info">
         <CardHeader>
-          <CardTitle>Event Records</CardTitle>
+          <CardTitle className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-info inline-block"></span> Event Records</CardTitle>
         </CardHeader>
         <CardContent>
           <DataTable

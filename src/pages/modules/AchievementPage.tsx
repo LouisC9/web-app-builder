@@ -61,7 +61,7 @@ const AchievementPage = () => {
   return (
     <div>
       <PageHeader title="Achievements" breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }, { label: "Achievements" }]}>
-        <Button onClick={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}><Plus className="mr-1.5 h-4 w-4" /> Add Achievement</Button>
+        <Button className="bg-purple hover:bg-purple/90 text-purple-foreground" onClick={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}><Plus className="mr-1.5 h-4 w-4" /> Add Achievement</Button>
       </PageHeader>
 
       <Dialog open={showForm} onOpenChange={setShowForm}>
@@ -91,7 +91,7 @@ const AchievementPage = () => {
         <DialogContent><DialogHeader><DialogTitle>Delete Achievement</DialogTitle><DialogDescription>Are you sure? This cannot be undone.</DialogDescription></DialogHeader><DialogFooter><Button variant="outline" onClick={() => setDeleteId(null)}>Cancel</Button><Button variant="destructive" onClick={handleDelete}>Delete</Button></DialogFooter></DialogContent>
       </Dialog>
 
-      <Card><CardHeader><CardTitle>Achievement Records</CardTitle></CardHeader><CardContent>
+      <Card className="border-t-purple"><CardHeader><CardTitle className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-purple inline-block"></span> Achievement Records</CardTitle></CardHeader><CardContent>
         <DataTable idPrefix="achievement" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["title", "level", "awarding_body"]} filters={filters} filterLabel="Level" actions={(row: any) => (
           <div className="flex justify-end gap-1">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(row)}><Pencil className="h-4 w-4" /></Button>

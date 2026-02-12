@@ -17,11 +17,11 @@ const AdminDashboard = () => {
   const totalAchievements = demoAchievements.length;
 
   const stats = [
-    { id: "adminTotalUsers", label: "Total Users", value: totalUsers, icon: Users, color: "text-primary" },
-    { id: "adminTotalEvents", label: "Total Events", value: totalEvents, icon: Calendar, color: "text-info" },
-    { id: "adminTotalClubs", label: "Total Clubs", value: totalClubs, icon: Users, color: "text-success" },
-    { id: "adminTotalMerits", label: "Total Merits", value: totalMerits, icon: Star, color: "text-warning" },
-    { id: "adminTotalAchievements", label: "Total Achievements", value: totalAchievements, icon: Award, color: "text-destructive" },
+    { id: "adminTotalUsers", label: "Total Users", value: totalUsers, icon: Users, color: "text-primary", bgTint: "bg-primary-tint", gradient: "gradient-primary" },
+    { id: "adminTotalEvents", label: "Total Events", value: totalEvents, icon: Calendar, color: "text-info", bgTint: "bg-info-tint", gradient: "gradient-info" },
+    { id: "adminTotalClubs", label: "Total Clubs", value: totalClubs, icon: Users, color: "text-success", bgTint: "bg-success-tint", gradient: "gradient-success" },
+    { id: "adminTotalMerits", label: "Total Merits", value: totalMerits, icon: Star, color: "text-warning", bgTint: "bg-warning-tint", gradient: "gradient-warning" },
+    { id: "adminTotalAchievements", label: "Total Achievements", value: totalAchievements, icon: Award, color: "text-purple", bgTint: "bg-purple-tint", gradient: "gradient-purple" },
   ];
 
   // =========================
@@ -41,10 +41,10 @@ const AdminDashboard = () => {
       {/* Summary Cards */}
       {/* ========================= */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        {stats.map((s) => (
-          <Card key={s.id} className="stat-card">
+        {stats.map((s, idx) => (
+          <Card key={s.id} className={`stat-card ${s.gradient} animate-fade-in-up animate-delay-${idx + 1}`}>
             <CardContent className="flex items-center gap-4 p-5">
-              <div className={`flex h-11 w-11 items-center justify-center rounded-lg bg-muted ${s.color}`}>
+              <div className={`flex h-11 w-11 items-center justify-center rounded-lg ${s.bgTint} ${s.color}`}>
                 <s.icon className="h-5 w-5" />
               </div>
               <div>
@@ -59,12 +59,12 @@ const AdminDashboard = () => {
       {/* ========================= */}
       {/* Top Active Users */}
       {/* ========================= */}
-      <Card className="mt-6">
+      <Card className="mt-6 animate-fade-in-up">
         <CardHeader><CardTitle className="flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-primary" /> Top Active Users</CardTitle></CardHeader>
         <CardContent>
           <Table id="adminTopUsersTable">
             <TableHeader>
-              <TableRow>
+              <TableRow className="bg-muted/50">
                 <TableHead>Student ID</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Events</TableHead>
@@ -76,7 +76,7 @@ const AdminDashboard = () => {
             </TableHeader>
             <TableBody>
               {topUsers.map((u) => (
-                <TableRow key={u.id}>
+                <TableRow key={u.id} className="zebra-row">
                   <TableCell className="font-mono text-xs">{u.student_id}</TableCell>
                   <TableCell className="font-medium">{u.full_name}</TableCell>
                   <TableCell>{u.total_events}</TableCell>
