@@ -26,8 +26,9 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, Calendar } from "lucide-react";
 import { demoEvents, eventTypeOptions, CURRENT_USER_ID, type EventRecord } from "@/data/demo-data";
+import { toast } from "sonner";
 
 const emptyForm = {
   event_name: "",
@@ -61,6 +62,7 @@ const EventPage = () => {
         )
       );
       setEditingId(null);
+      toast.success("Event updated successfully");
     } else {
       const newRecord: EventRecord = {
         id: Date.now(),
@@ -68,6 +70,7 @@ const EventPage = () => {
         ...form,
       };
       setRecords((r) => [...r, newRecord]);
+      toast.success("Event added successfully");
     }
     setForm(emptyForm);
     setShowForm(false);
@@ -90,6 +93,7 @@ const EventPage = () => {
     if (deleteId !== null) {
       setRecords((r) => r.filter((rec) => rec.id !== deleteId));
       setDeleteId(null);
+      toast.error("Event deleted");
     }
   };
 
@@ -205,6 +209,10 @@ const EventPage = () => {
             searchFields={["event_name", "event_type", "location", "organizer"]}
             filters={filters}
             filterLabel="Event Type"
+            emptyIcon={Calendar}
+            emptyMessage="No events yet"
+            emptyActionLabel="Add your first event"
+            onEmptyAction={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }}
             actions={(row: any) => (
               <div className="flex justify-end gap-1">
                 <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(row)}>

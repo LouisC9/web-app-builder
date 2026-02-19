@@ -3,7 +3,7 @@
 // App title + logged-in user name + role toggle + logout
 // =========================
 
-import { LogOut, Menu, Shield, User } from "lucide-react";
+import { LogOut, Menu, Shield, User, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRole } from "@/contexts/RoleContext";
 import {
@@ -73,6 +73,11 @@ const Topbar = ({ onToggleSidebar }: TopbarProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
+              <UserCircle className="mr-2 h-4 w-4" />
+              My Profile
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleRoleSwitch} className="cursor-pointer">
               <Shield className="mr-2 h-4 w-4" />
               Switch to {currentRole === "admin" ? "Student" : "Admin"}
