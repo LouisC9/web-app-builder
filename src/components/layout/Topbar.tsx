@@ -1,6 +1,6 @@
 // =========================
 // Topbar Component
-// App title + logged-in user name + role toggle + logout
+// App title + search + notifications + theme toggle + user menu
 // =========================
 
 import { LogOut, Menu, Shield, User, UserCircle } from "lucide-react";
@@ -14,6 +14,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNavigate } from "react-router-dom";
+import GlobalSearch from "@/components/GlobalSearch";
+import NotificationsCenter from "@/components/NotificationsCenter";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface TopbarProps {
   onToggleSidebar: () => void;
@@ -47,15 +50,30 @@ const Topbar = ({ onToggleSidebar }: TopbarProps) => {
       {/* ========================= */}
       {/* App Title */}
       {/* ========================= */}
-      <h1 className="text-base font-semibold text-foreground truncate">
+      <h1 className="text-base font-semibold text-foreground truncate hidden md:block">
         Student Co-curricular System
       </h1>
 
-      <div className="ml-auto flex items-center gap-2">
+      {/* ========================= */}
+      {/* Global Search */}
+      {/* ========================= */}
+      <div className="ml-auto flex items-center gap-1.5">
+        <GlobalSearch />
+
+        {/* ========================= */}
+        {/* Theme Toggle */}
+        {/* ========================= */}
+        <ThemeToggle />
+
+        {/* ========================= */}
+        {/* Notifications */}
+        {/* ========================= */}
+        <NotificationsCenter />
+
         {/* ========================= */}
         {/* Role Badge */}
         {/* ========================= */}
-        <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+        <span className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
           {currentRole === "admin" ? <Shield className="h-3 w-3" /> : <User className="h-3 w-3" />}
           {currentRole === "admin" ? "Admin" : "Student"}
         </span>
