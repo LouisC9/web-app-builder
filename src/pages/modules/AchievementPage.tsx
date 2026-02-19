@@ -13,8 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, Award } from "lucide-react";
 import { demoAchievements, achievementLevelOptions, CURRENT_USER_ID, type AchievementRecord } from "@/data/demo-data";
+import { toast } from "sonner";
 
 const emptyForm = { title: "", level: "", date: "", awarding_body: "", certificate_file: "", description: "" };
 
@@ -32,8 +33,10 @@ const AchievementPage = () => {
     if (editingId !== null) {
       setRecords((r) => r.map((rec) => rec.id === editingId ? { ...rec, ...form } : rec));
       setEditingId(null);
+      toast.success("Achievement updated successfully");
     } else {
       setRecords((r) => [...r, { id: Date.now(), user_id: CURRENT_USER_ID, ...form }]);
+      toast.success("Achievement added successfully");
     }
     setForm(emptyForm);
     setShowForm(false);
@@ -46,7 +49,7 @@ const AchievementPage = () => {
   };
 
   const handleDelete = () => {
-    if (deleteId !== null) { setRecords((r) => r.filter((rec) => rec.id !== deleteId)); setDeleteId(null); }
+    if (deleteId !== null) { setRecords((r) => r.filter((rec) => rec.id !== deleteId)); setDeleteId(null); toast.error("Achievement deleted"); }
   };
 
   const columns: ColumnDef<AchievementRecord>[] = [
@@ -92,7 +95,7 @@ const AchievementPage = () => {
       </Dialog>
 
       <Card className="border-t-purple"><CardHeader><CardTitle className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-purple inline-block"></span> Achievement Records</CardTitle></CardHeader><CardContent>
-        <DataTable idPrefix="achievement" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["title", "level", "awarding_body"]} filters={filters} filterLabel="Level" actions={(row: any) => (
+        <DataTable idPrefix="achievement" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["title", "level", "awarding_body"]} filters={filters} filterLabel="Level" emptyIcon={Award} emptyMessage="No achievements yet" emptyActionLabel="Add your first achievement" onEmptyAction={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }} actions={(row: any) => (
           <div className="flex justify-end gap-1">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(row)}><Pencil className="h-4 w-4" /></Button>
             <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => setDeleteId(row.id)}><Trash2 className="h-4 w-4" /></Button>

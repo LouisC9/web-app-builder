@@ -21,7 +21,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Download, ChevronLeft, ChevronRight } from "lucide-react";
+import { Download, ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { Button as UiButton } from "@/components/ui/button";
 import { filterByKeyword, sortByColumn, paginateData, exportToCSV } from "@/utils/table-utils";
 
 // =========================
@@ -49,6 +50,10 @@ interface DataTableProps<T extends Record<string, unknown>> {
   filterLabel?: string;
   actions?: (row: T) => React.ReactNode;
   pageSize?: number;
+  emptyIcon?: React.ElementType;
+  emptyMessage?: string;
+  emptyActionLabel?: string;
+  onEmptyAction?: () => void;
 }
 
 function DataTable<T extends Record<string, unknown>>({
@@ -60,6 +65,10 @@ function DataTable<T extends Record<string, unknown>>({
   filterLabel,
   actions,
   pageSize = 5,
+  emptyIcon: EmptyIcon,
+  emptyMessage,
+  emptyActionLabel,
+  onEmptyAction,
 }: DataTableProps<T>) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [sortColumn, setSortColumn] = useState<string>("");
@@ -221,8 +230,16 @@ function DataTable<T extends Record<string, unknown>>({
           <TableBody>
             {pageData.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length + (actions ? 1 : 0)} className="h-24 text-center text-muted-foreground">
-                  No records found.
+                <TableCell colSpan={columns.length + (actions ? 1 : 0)} className="h-40 text-center">
+                  <div className="flex flex-col items-center gap-3 py-6">
+                    {EmptyIcon && <EmptyIcon className="h-10 w-10 text-muted-foreground/40" />}
+                    <p className="text-sm text-muted-foreground">{emptyMessage || "No records found."}</p>
+                    {emptyActionLabel && onEmptyAction && (
+                      <UiButton size="sm" variant="outline" onClick={onEmptyAction}>
+                        <Plus className="mr-1.5 h-4 w-4" /> {emptyActionLabel}
+                      </UiButton>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             ) : (

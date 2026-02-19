@@ -21,6 +21,7 @@ import { useState } from "react";
 
 interface AppSidebarProps {
   collapsed: boolean;
+  onClose?: () => void;
 }
 
 // =========================
@@ -53,7 +54,7 @@ const adminItems: NavItem[] = [
   { title: "Users", url: "/admin/users", icon: UserCog },
 ];
 
-const AppSidebar = ({ collapsed }: AppSidebarProps) => {
+const AppSidebar = ({ collapsed, onClose }: AppSidebarProps) => {
   const { currentRole } = useRole();
   const location = useLocation();
   const [modulesOpen, setModulesOpen] = useState(true);
@@ -68,6 +69,7 @@ const AppSidebar = ({ collapsed }: AppSidebarProps) => {
     <NavLink
       key={item.url}
       to={item.url}
+      onClick={() => onClose?.()}
       className={cn(
         "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-all duration-150",
         isActive(item.url)

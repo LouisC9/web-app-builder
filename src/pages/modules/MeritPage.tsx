@@ -13,8 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
-import { Pencil, Trash2, Plus, Clock } from "lucide-react";
+import { Pencil, Trash2, Plus, Clock, Star } from "lucide-react";
 import { demoMerits, meritCategoryOptions, CURRENT_USER_ID, type MeritRecord } from "@/data/demo-data";
+import { toast } from "sonner";
 
 const emptyForm = { activity_name: "", category: "", hours: "", date: "", description: "" };
 
@@ -35,8 +36,10 @@ const MeritPage = () => {
     if (editingId !== null) {
       setRecords((r) => r.map((rec) => rec.id === editingId ? { ...rec, ...record } : rec));
       setEditingId(null);
+      toast.success("Merit updated successfully");
     } else {
       setRecords((r) => [...r, { id: Date.now(), user_id: CURRENT_USER_ID, ...record }]);
+      toast.success("Merit added successfully");
     }
     setForm(emptyForm);
     setShowForm(false);
@@ -49,7 +52,7 @@ const MeritPage = () => {
   };
 
   const handleDelete = () => {
-    if (deleteId !== null) { setRecords((r) => r.filter((rec) => rec.id !== deleteId)); setDeleteId(null); }
+    if (deleteId !== null) { setRecords((r) => r.filter((rec) => rec.id !== deleteId)); setDeleteId(null); toast.error("Merit deleted"); }
   };
 
   const columns: ColumnDef<MeritRecord>[] = [
@@ -109,7 +112,7 @@ const MeritPage = () => {
       </Dialog>
 
       <Card className="border-t-warning"><CardHeader><CardTitle className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-warning inline-block"></span> Merit Records</CardTitle></CardHeader><CardContent>
-        <DataTable idPrefix="merit" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["activity_name", "category"]} filters={filters} filterLabel="Category" actions={(row: any) => (
+        <DataTable idPrefix="merit" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["activity_name", "category"]} filters={filters} filterLabel="Category" emptyIcon={Star} emptyMessage="No merit records yet" emptyActionLabel="Add your first merit" onEmptyAction={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }} actions={(row: any) => (
           <div className="flex justify-end gap-1">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(row)}><Pencil className="h-4 w-4" /></Button>
             <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => setDeleteId(row.id)}><Trash2 className="h-4 w-4" /></Button>

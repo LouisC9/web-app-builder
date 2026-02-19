@@ -13,8 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, Users } from "lucide-react";
 import { demoClubs, clubRoleOptions, CURRENT_USER_ID, type ClubRecord } from "@/data/demo-data";
+import { toast } from "sonner";
 
 const emptyForm = { club_name: "", role: "", join_date: "", end_date: "", description: "" };
 
@@ -32,8 +33,10 @@ const ClubPage = () => {
     if (editingId !== null) {
       setRecords((r) => r.map((rec) => rec.id === editingId ? { ...rec, ...form } : rec));
       setEditingId(null);
+      toast.success("Club updated successfully");
     } else {
       setRecords((r) => [...r, { id: Date.now(), user_id: CURRENT_USER_ID, ...form }]);
+      toast.success("Club added successfully");
     }
     setForm(emptyForm);
     setShowForm(false);
@@ -46,7 +49,7 @@ const ClubPage = () => {
   };
 
   const handleDelete = () => {
-    if (deleteId !== null) { setRecords((r) => r.filter((rec) => rec.id !== deleteId)); setDeleteId(null); }
+    if (deleteId !== null) { setRecords((r) => r.filter((rec) => rec.id !== deleteId)); setDeleteId(null); toast.error("Club deleted"); }
   };
 
   const columns: ColumnDef<ClubRecord>[] = [
@@ -91,7 +94,7 @@ const ClubPage = () => {
       </Dialog>
 
       <Card className="border-t-success"><CardHeader><CardTitle className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-success inline-block"></span> Club Records</CardTitle></CardHeader><CardContent>
-        <DataTable idPrefix="club" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["club_name", "role"]} filters={filters} filterLabel="Role" actions={(row: any) => (
+        <DataTable idPrefix="club" data={records as unknown as Record<string, unknown>[]} columns={columns as unknown as ColumnDef<Record<string, unknown>>[]} searchFields={["club_name", "role"]} filters={filters} filterLabel="Role" emptyIcon={Users} emptyMessage="No clubs yet" emptyActionLabel="Add your first club" onEmptyAction={() => { setForm(emptyForm); setEditingId(null); setShowForm(true); }} actions={(row: any) => (
           <div className="flex justify-end gap-1">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEdit(row)}><Pencil className="h-4 w-4" /></Button>
             <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => setDeleteId(row.id)}><Trash2 className="h-4 w-4" /></Button>

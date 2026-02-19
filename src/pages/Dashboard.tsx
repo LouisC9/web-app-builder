@@ -6,6 +6,8 @@
 import { Calendar, Users, Star, Award } from "lucide-react";
 import PageHeader from "@/components/layout/PageHeader";
 import { Card, CardContent } from "@/components/ui/card";
+import DashboardCharts from "@/components/DashboardCharts";
+import ActivityTimeline from "@/components/ActivityTimeline";
 import {
   demoEvents,
   demoClubs,
@@ -66,33 +68,14 @@ const Dashboard = () => {
       </div>
 
       {/* ========================= */}
-      {/* Recent Activity */}
+      {/* Charts Section */}
       {/* ========================= */}
-      <Card className="mt-6 animate-fade-in-up animate-delay-4">
-        <CardContent className="p-5">
-          <h3 className="mb-3 text-lg font-semibold">Recent Activity</h3>
-          <div className="space-y-3">
-            {myEvents.slice(0, 3).map((e) => (
-              <div key={e.id} className="flex items-center gap-3 rounded-md bg-muted/50 p-3 border-l-info">
-                <Calendar className="h-4 w-4 text-info" />
-                <div>
-                  <p className="text-sm font-medium">{e.event_name}</p>
-                  <p className="text-xs text-muted-foreground">{e.event_type} · {e.event_date}</p>
-                </div>
-              </div>
-            ))}
-            {myAchievements.slice(0, 2).map((a) => (
-              <div key={a.id} className="flex items-center gap-3 rounded-md bg-muted/50 p-3 border-l-purple">
-                <Award className="h-4 w-4 text-purple" />
-                <div>
-                  <p className="text-sm font-medium">{a.title}</p>
-                  <p className="text-xs text-muted-foreground">{a.level} · {a.date}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+      <DashboardCharts />
+
+      {/* ========================= */}
+      {/* Activity Timeline */}
+      {/* ========================= */}
+      <ActivityTimeline />
     </div>
   );
 };
